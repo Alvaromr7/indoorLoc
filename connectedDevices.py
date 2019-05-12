@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import subprocess,csv,numpy
-
+# cambio
 maclist = []
 signallist = []
 iplist = []
