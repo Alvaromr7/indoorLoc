@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import subprocess,csv
-# cambio
+
 maclist = []
 signallist = []
 iplist = []
@@ -13,11 +13,12 @@ def get_interface():
     p2 = subprocess.Popen(["awk", '$1 ~ /^w/ {print $1}'], stdin=p1.stdout, stdout=subprocess.PIPE)
     displayInt= p2.communicate()[0].rstrip()
     return displayInt
-# subprocess.check_output(["iw", "dev", displayInt, "station", "dump"])
+
+# Store returned value in global variable
+displayInt = get_interface()
 
 # Retrieves MAC address
 def get_mac():
-    get_interface()
     p3 = subprocess.Popen(["iw", "dev", displayInt, "station", "dump"], stdout=subprocess.PIPE)
     p4 = subprocess.Popen(["grep", "Station"], stdin=p3.stdout, stdout=subprocess.PIPE)
     p5 = subprocess.Popen(["cut", "-f", "2", "-s", "-d", " "], encoding="utf8", stdin=p4.stdout, stdout=subprocess.PIPE) # encoding is for getting a string (Normally in bytes)
@@ -28,7 +29,6 @@ def get_mac():
 
 # Retrieves Device Signal (dBm)
 def get_signal():
-    get_interface()
     p6 = subprocess.Popen(["iw", "dev", displayInt, "station", "dump"], stdout=subprocess.PIPE)
     p7 = subprocess.Popen(["grep", "signal:"], stdin=p6.stdout, stdout=subprocess.PIPE)
     p8 = subprocess.Popen(["awk", '{print $2}'], encoding="utf8", stdin=p7.stdout, stdout=subprocess.PIPE)
