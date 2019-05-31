@@ -13,7 +13,11 @@ def index():
     data_list = list(zip(maclist, signallist))
     conn = sqlite3.connect('db/users.db')
     c = conn.cursor()
-    c.executemany("INSERT INTO users (MAC,SIGNAL) VALUES(?,?)", data_list)
+    try:
+        c.executemany("INSERT INTO users (MAC,SIGNAL) VALUES(?,?)", data_list)
+    except Exception as exc:
+        c.executemany("REPLACE INTO users (MAC,SIGNAL) VALUES(?,?)", data_list)
+
 
     conn.commit()
     return "Items added."
