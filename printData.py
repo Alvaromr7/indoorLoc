@@ -22,4 +22,11 @@ def index():
     conn.commit()
     return "Items added."
 
+@route('/data', method='GET')
+def index():
+    conn = sqlite3.connect('db/users.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM users')
+    return template('simple.tpl', rows = c.fetchall())
+
 run(host='0.0.0.0', port=8080)

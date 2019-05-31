@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script type="text/javascript">
         // function ajax(){
         //     var req = new XMLHttpRequest();
@@ -23,23 +23,19 @@
         }
     })
         //linea que hace que se refreseque la pagina cada segundo
-        setInterval(function(){ajax();}, 1000);
-    </script>
+        // setInterval(function(){ajax();}, 1000);
+    </script> -->
 </head>
-<body onload="ajax();">
+<body>
     <table>
         <tr>
-            <td>IP address</td>
-            <td>Hostname</td>
             <td>MAC address</td>
             <td>Signal</td>
         </tr>
-        %for i in range(len(maclist)):
+        %for row in rows:
             <tr>
-                <td>{{iplist[i]}}</td>
-                <td>{{hostlist[i]}}</td>
-                <td>{{maclist[i]}}</td>
-                <td>{{signallist[i]}}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
             </tr>
         %end
     </table>
