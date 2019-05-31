@@ -1,38 +1,21 @@
 #!/usr/bin/env python
 from bottle import route, run, template, request, SimpleTemplate, Bottle,abort,debug
-import sys
-# sys.path.append("../python")
-from connectedDevices import *
+import sqlite3
+import json
 
-app = Bottle()
-
-@app.route('/')
+@route('/', method='POST')
 def index():
-# def handle_websocket():
-#     wsock = request.environ.get('wsgi.websocket')
-#     if not wsock:
-#         abort(400, 'Expected WebSocket request.')
-#
-#     while True:
-#         try:
-#             message = wsock.receive()
-#             wsock.send("Your message was: %r" % message)
-#         except WebSocketError:
-#             break
-#
-#     from gevent.pywsgi import WSGIServer
-#     from geventwebsocket import WebSocketError
-#     from geventwebsocket.handler import WebSocketHandler
-#     server = WSGIServer(("localhost", 8080), app,
-#                         handler_class=WebSocketHandler)
-#     server.serve_forever()
+    body = request.body.read().decode('utf8') # read directly HTTP input
+    get_dict = json.loads(body) # decode json and get native python dict
+    maclist = get_dict.get('maclist')
+    signallist = get_dict.get('signallist')
 
-    info={'iplist': iplist, 'maclist': maclist, 'signallist': signallist, 'hostlist': hostlist}
-    return template('views/simple.tpl', info)
+    data_list = list(zip(maclist, signallist))
+    conn = sqlite3.connect('db/users.db')
+    c = conn.cursor()
+    c.executemany("INSERT INTO users (MAC,SIGNAL) VALUES(?,?)", data_list)
 
+    conn.commit()
+    return "Items added."
 
-if __name__ == '__main__':
-    app.run()
-
-debug(True)
-run(host='localhost', port=8080, reloader=True)
+run(host='0.0.0.0', port=8080)
