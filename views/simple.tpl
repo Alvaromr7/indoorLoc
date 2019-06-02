@@ -1,33 +1,27 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
 <head>
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script type="text/javascript">
-        // function ajax(){
-        //     var req = new XMLHttpRequest();
-        //     req.onreadystatechange = function(){
-        //         if (req.readyState == 4 && req.status == 200) {
-        //             document.getElementById('signallist').innerHTML = req.responseText;
-        //         }
-        //     }
-        //     req.open('GET', '../connectedDevices.py', true);
-        //     req.send();
-        // }
-        $.post({
-        url: '../connectedDevices.py',
-        data: {
-                'signallist': signallist,
-        },
-        success: function(data) {
-            console.log("post succeeded")
+        function ajax(){
+            var req = new XMLHttpRequest();
+
+            req.onreadystatechange = function(){
+                if (req.readyState == 4 && req.status == 200) {
+                    document.getElementById('myTable').innerHTML = req.responseText;
+                }
+            }
+
+            req.open('GET', 'http://localhost:8080/data', true);
+            req.send();
         }
-    })
+
         //linea que hace que se refreseque la pagina cada segundo
-        // setInterval(function(){ajax();}, 1000);
-    </script> -->
+        setInterval(function(){ajax();}, 1000);
+    </script>
 </head>
 <body>
-    <table>
+    <table id="myTable">
         <tr>
             <td>MAC address</td>
             <td>Signal</td>
