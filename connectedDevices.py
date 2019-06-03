@@ -49,6 +49,7 @@ hostlist = [x[1] for x in column]
 
 # a Python object (dict)
 info = {
+    'id': 1,
     'maclist': maclist,
     'signallist': signallist,
 }
