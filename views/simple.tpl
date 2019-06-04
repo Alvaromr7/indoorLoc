@@ -16,7 +16,6 @@
             req.send();
         }
 
-        //linea que hace que se refreseque la pagina cada segundo
         setInterval(function(){ajax();}, 1000);
     </script>
 </head>
@@ -24,9 +23,19 @@
     <table id="myTable">
         <tr>
             <td>MAC address</td>
-            <td>Signal</td>
+            <td>RSSI</td>
         </tr>
-        %for row in rows:
+        %for row in rows1:
+            <tr>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+            </tr>
+        %end
+        <tr>
+            <td>MAC address</td>
+            <td>RSSI</td>
+        </tr>
+        %for row in rows2:
             <tr>
                 <td>{{ row[1] }}</td>
                 <td>{{ row[2] }}</td>

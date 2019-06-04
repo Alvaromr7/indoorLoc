@@ -30,7 +30,6 @@ p8 = subprocess.Popen(["awk", '{print $2}'], encoding="utf8", stdin=p7.stdout, s
 
 for line in p8.stdout:
     signallist.append(line.rstrip('\n'))            # rstrip() removes every newline
-    # return print(signallist)
 
 # Retrieves IP and Hostname
 with open(leasefile,'r') as infile:
@@ -63,6 +62,3 @@ print(python2json)
 f = open("data.json", "w")
 f.write(python2json)
 f.close()
-
-# resp = req.post("http://localhost:8080", info)
-# print(resp.status_code, resp.reason)
