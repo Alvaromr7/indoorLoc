@@ -3,6 +3,7 @@ from bottle import route, run, template, request
 import sqlite3
 import json
 import time
+from datetime import datetime
 
 @route('/', method='POST')
 def index():
@@ -17,19 +18,15 @@ def index():
     c = conn.cursor()
     if (id == 1):
         try:
-            c.executemany("INSERT INTO node1 (MAC,SIGNAL) VALUES(?,?)", data_list)
+            c.executemany("INSERT OR REPLACE INTO node1 (MAC,SIGNAL,FECHA) VALUES(?,?,?)", data_list, datetime.now())
         except Exception as exc:
             c.executemany("REPLACE INTO node1 (MAC,SIGNAL) VALUES(?,?)", data_list)
     if (id == 2):
         try:
-            c.executemany("INSERT INTO node2 (MAC,SIGNAL) VALUES(?,?)", data_list)
+            c.executemany("INSERT OR REPLACE INTO node2 (MAC,SIGNAL,FECHA) VALUES(?,?,?)", data_list, datetime.now())
         except Exception as exc:
             c.executemany("REPLACE INTO node2 (MAC,SIGNAL) VALUES(?,?)", data_list)
     conn.commit()
-
-    # time.sleep(10)
-    # c.execute('DELETE from users')
-    # conn.commit()
 
     return "Items added.\n"
 
@@ -41,10 +38,6 @@ def index():
     node1_table = c.fetchall()
     c.execute('SELECT * FROM node2')
     node2_table = c.fetchall()
-    # isEmpty = c.execute('SELECT count(*) from users')
-    #
-    # if (isEmpty != 0):
-    #     c.execute('SELECT * FROM users')
 
     return template('simple.tpl', rows1 = node1_table, rows2 = node2_table)
 
