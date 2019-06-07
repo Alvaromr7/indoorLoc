@@ -3,7 +3,7 @@ from bottle import route, run, template, request
 import sqlite3
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 @route('/', method='POST')
 def index():
@@ -12,15 +12,15 @@ def index():
     id = get_dict.get('id')
     maclist = get_dict.get('maclist')
     signallist = get_dict.get('signallist')
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    nownow = [now,now]
 
-    data_list = list(zip(maclist, signallist))
+    data_list = list(zip(maclist, signallist, nownow))
+    print(data_list)
     conn = sqlite3.connect('db/users.db')
     c = conn.cursor()
     if (id == 1):
-        try:
-            c.executemany("INSERT OR REPLACE INTO node1 (MAC,SIGNAL,FECHA) VALUES(?,?,?)", data_list, datetime.now())
-        except Exception as exc:
-            c.executemany("REPLACE INTO node1 (MAC,SIGNAL) VALUES(?,?)", data_list)
+            c.executemany("REPLACE INTO node1 (MAC,SIGNAL,FECHA) VALUES(?,?,?)", data_list)
     if (id == 2):
         try:
             c.executemany("INSERT OR REPLACE INTO node2 (MAC,SIGNAL,FECHA) VALUES(?,?,?)", data_list, datetime.now())
@@ -34,7 +34,8 @@ def index():
 def index():
     conn = sqlite3.connect('db/users.db')
     c = conn.cursor()
-    c.execute('SELECT * FROM node1')
+    t = datetime.now() - timedelta(seconds = 5)
+    c.execute('SELECT * FROM node1 where fecha > ?', (t,))
     node1_table = c.fetchall()
     c.execute('SELECT * FROM node2')
     node2_table = c.fetchall()
