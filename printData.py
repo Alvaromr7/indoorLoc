@@ -13,19 +13,18 @@ def index():
     maclist = get_dict.get('maclist')
     signallist = get_dict.get('signallist')
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    nownow = [now,now]
+    nowlist = []
+    for i in range(len(maclist)):
+        nowlist.append(now)
+    data_list = list(zip(maclist, signallist, nowlist))
 
-    data_list = list(zip(maclist, signallist, nownow))
-    print(data_list)
+
     conn = sqlite3.connect('db/users.db')
     c = conn.cursor()
     if (id == 1):
-            c.executemany("REPLACE INTO node1 (MAC,SIGNAL,FECHA) VALUES(?,?,?)", data_list)
+        c.executemany("REPLACE INTO node1 (MAC,SIGNAL,FECHA) VALUES(?,?,?)", data_list)
     if (id == 2):
-        try:
-            c.executemany("INSERT OR REPLACE INTO node2 (MAC,SIGNAL,FECHA) VALUES(?,?,?)", data_list, datetime.now())
-        except Exception as exc:
-            c.executemany("REPLACE INTO node2 (MAC,SIGNAL) VALUES(?,?)", data_list)
+        c.executemany("REPLACE INTO node2 (MAC,SIGNAL,FECHA) VALUES(?,?,?)", data_list)
     conn.commit()
 
     return "Items added.\n"
@@ -34,10 +33,10 @@ def index():
 def index():
     conn = sqlite3.connect('db/users.db')
     c = conn.cursor()
-    t = datetime.now() - timedelta(seconds = 5)
+    t = datetime.now() - timedelta(seconds = 3)
     c.execute('SELECT * FROM node1 where fecha > ?', (t,))
     node1_table = c.fetchall()
-    c.execute('SELECT * FROM node2')
+    c.execute('SELECT * FROM node2 where fecha > ?', (t,))
     node2_table = c.fetchall()
 
     return template('simple.tpl', rows1 = node1_table, rows2 = node2_table)
