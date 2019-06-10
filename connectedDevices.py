@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import subprocess,csv
-import requests as req
 import json
 
 maclist = []
@@ -43,8 +42,6 @@ with open(leasefile,'r') as infile:
     # Prints the 2nd and 3rd coulumn of file
     column = [ cols[2:4] for cols in csv.reader(infile, delimiter=" ") ]
 hostlist = [x[1] for x in column]
-
-# Send data to server
 
 # a Python object (dict)
 info = {
