@@ -1,0 +1,77 @@
+    <!DOCTYPE>
+    <html>
+    <head>
+        <title>IndoorLoc App</title>
+        <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+        <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+        <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+        <!--<link rel="stylesheet" type="text/css" href="css/styles.css">-->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary static-top">
+            <div class="container">
+              <a class="navbar-brand" href="#">IndoorLoc</a>
+            </div>
+        </nav>
+        <div  id="myTable">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nodo 1</th>
+                </tr>
+                <tr>
+                    <th scope="col">MAC Address</th>
+                    <th scope="col">RSSI</th>
+                </tr>
+            </thead>
+            <tbody>
+            %for row in rows1:
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                </tr>
+            %end
+            </tbody>
+            <thead>
+                <tr>
+                    <th scope="col">Nodo 2</th>
+                </tr>
+                <tr>
+                    <th scope="col">MAC Address</th>
+                    <th scope="col">RSSI</th>
+                </tr>
+            </thead>
+            <tbody>
+            %for row in rows2:
+                <tr>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                </tr>
+            %end
+            </tbody>
+        </div>
+        </table>
+
+        <script type="text/javascript">
+            function ajax(){
+                var req = new XMLHttpRequest();
+
+                req.onreadystatechange = function(){
+                    if (req.readyState == 4 && req.status == 200) {
+                        document.getElementById('myTable').innerHTML = req.responseText;
+                    }
+                }
+
+                //req.open('GET', 'http://localhost:8080/data', true);
+                req.open('GET', 'http://localhost:8080/table', true);
+                req.send();
+            }
+
+            setInterval(function(){ajax();}, 1000);
+        </script>
+        <script src="jquery/jquery.slim.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+
+    </body>
+    </html>

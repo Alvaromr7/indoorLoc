@@ -1,0 +1,36 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Nodo 1</th>
+        </tr>
+        <tr>
+            <th scope="col">MAC Address</th>
+            <th scope="col">RSSI</th>
+        </tr>
+    </thead>
+    <tbody>
+    %for row in rows1:
+        <tr>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+        </tr>
+    %end
+    </tbody>
+    <thead>
+        <tr>
+            <th scope="col">Nodo 2</th>
+        </tr>
+        <tr>
+            <th scope="col">MAC Address</th>
+            <th scope="col">RSSI</th>
+        </tr>
+    </thead>
+    <tbody>
+    %for row in rows2:
+        <tr>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+        </tr>
+    %end
+    </tbody>
+</table>
